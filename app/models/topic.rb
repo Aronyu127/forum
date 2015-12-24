@@ -4,12 +4,8 @@ class Topic < ActiveRecord::Base
   has_many :comments, :dependent=>:destroy
   has_many :topic_categoryships
   has_many :categories, :through => :topic_categoryships 
-  # def search_keyword
-	 #  if params[:keyword]
-	 #    @topics = Topic.where( [ "name like ?", "%#{params[:keyword]}%" ] )
-	 #  else
-	 #    @topics = Topic.all
-	 #  end
-  #   @topics = @topics.page(params[:page]).per(5)
-  # end
+  
+  def latest_comment_time
+    self.last_comment_time.to_s.split("U").first
+  end  
 end

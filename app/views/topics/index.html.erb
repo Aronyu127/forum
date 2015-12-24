@@ -14,8 +14,13 @@
    	<th>
    		回覆數
    	</th>
+    <th>
+      最新回覆時間 
+    </th>
    	<th>
    		建立者
+   	</th>
+   	<th>
    	</th>
    </tr>
 <% @topics.each do |e|%>
@@ -26,6 +31,9 @@
 		  <td>
 		    <%= e.comments.size%>
 		  </td>
+      <td>
+        <%= e.latest_comment_time%>
+      </td>
 		  <td>
 		  	<%= e.user.try(:short_name)%>
 		  </td>
@@ -39,9 +47,10 @@
 <%end%>
   <tr>
       <td>
-      	<%= link_to '照發佈時間排列', topics_path(:keyword=>params[:keyword], :order => "latest") %>
-      	<%= link_to '熱門程度排列', topics_path( :order => "hot") %>
-        <%= link_to '預設排列', topics_path %>
+        <span>排序</span>
+      	<%= link_to '發佈時間', topics_path(:keyword=>params[:keyword], :order => "latest") %>
+      	<%= link_to '熱門程度', topics_path(:keyword=>params[:keyword], :order => "hot") %>
+        <%= link_to '預設', topics_path %>
       </td>
 	    <td>
 	    <%= paginate @topics %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151223115753) do
+ActiveRecord::Schema.define(version: 20151224052801) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -46,11 +46,15 @@ ActiveRecord::Schema.define(version: 20151223115753) do
     t.boolean  "is_public"
     t.string   "status"
     t.date     "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
+    t.integer  "comments_count",    default: 0
+    t.datetime "last_comment_time"
   end
 
+  add_index "topics", ["comments_count"], name: "index_topics_on_comments_count"
+  add_index "topics", ["last_comment_time"], name: "index_topics_on_last_comment_time"
   add_index "topics", ["user_id"], name: "index_topics_on_user_id"
 
   create_table "users", force: :cascade do |t|

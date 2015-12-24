@@ -5,9 +5,9 @@ class TopicsController < ApplicationController
   def index
      
     if params[:order]=="latest"
-      sort_by = "name"
+      sort_by = "last_comment_time DESC"
     elsif params[:order]=="hot"
-      sort_by = "name"
+      sort_by = "comments_count DESC"
     else
       sort_by="created_at"
     end 
@@ -64,11 +64,12 @@ class TopicsController < ApplicationController
 	private
 
 	def topic_params
-	params.require(:topic).permit(:name,:content,:category_ids=>[]) 
+	params.require(:topic).permit(:name,:content,:comments_count,:category_ids=>[]) 
 	end
 
 	def set_topic
      @topic=Topic.find(params[:id])
+     
 	end	
 
 end

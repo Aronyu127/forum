@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Forum</title>
+  <title>某某論壇</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+
  <%if flash[:notice].present? %>
    <p class="alert alert-success" role="alert">
    <%= flash[:notice] %>
@@ -19,13 +20,14 @@
  <%end%>
  <div class="container">   
   <% if current_user %>
+     <div><img src="http://goo.gl/rZJXmp" alt="" style="max-width:100%" ></div>
           Hi, <%= current_user.email %>
-          <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
-          <%= link_to('修改密碼', edit_registration_path(:user)) %>
-      <% else %>
-          <%= link_to('註冊', new_registration_path(:user)) %> |
-          <%= link_to('登入', new_session_path(:user)) %>
-      <% end %>
+      <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
+      <%= link_to('修改密碼', edit_registration_path(:user)) %>
+    <% else %>
+      <%= link_to('註冊', new_registration_path(:user)) %> |
+      <%= link_to('登入', new_session_path(:user)) %>
+    <% end %>
    
   <%= yield %>
  </div> 

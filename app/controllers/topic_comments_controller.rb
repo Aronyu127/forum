@@ -13,6 +13,8 @@ class TopicCommentsController < ApplicationController
   	@comment= @topic.comments.new(topic_comments_params)
   	@comment.user=current_user
   	if @comment.save
+      @topic.comments_count += 1
+      @topic.save
   	redirect_to topic_path(@topic)
     flash[:notice]="回復成功"
   	else 
@@ -34,6 +36,8 @@ class TopicCommentsController < ApplicationController
     @comment=Comment.find(params[:id])
     @comment.destroy
     flash[:alert]="刪除回覆"
+    @topic.comments_count -= 1
+    @topic.save
 
      redirect_to topic_path(@topic)
   end
