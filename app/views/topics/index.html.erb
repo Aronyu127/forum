@@ -5,7 +5,15 @@
   <%= text_field_tag "keyword" %>
   <%= submit_tag "搜尋文章",:class=>"btn btn-default" %>
 <% end %>
-
+<span>全站分類:</span>
+<%= link_to "幻想",topics_path(:category=>"幻想")%>/
+<%= link_to "校園",topics_path(:category=>"校園")%>/
+<%= link_to "魔法",topics_path(:category=>"魔法")%>/
+<%= link_to "網遊",topics_path(:category=>"網遊")%>/
+<%= link_to "日記",topics_path(:category=>"日記")%>/
+<%= link_to "兩性",topics_path(:category=>"兩性")%>/
+<%= link_to "運動",topics_path(:category=>"運動")%>/
+<%= link_to "不分類",topics_path%>
 <table class="table table-hover">
    <tr>
    	<th>
@@ -38,7 +46,7 @@
 		  	<%= e.user.try(:short_name)%>
 		  </td>
 		  <td>
-		    <%= link_to "展示文章", topic_path(e,:page => params[:page],),:class =>"btn btn-default"%>
+		    <%= link_to "展示文章", topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
 		    <%= link_to "修改文章", edit_topic_path(e,:page => params[:page]),:class=>"btn btn-default" %>
 		    <%= link_to "刪除文章", topic_path(e,:page => params[:page]), :method => :delete, :data =>{:confirm =>"你確定要刪除此篇文章嗎？"},:class=>"btn btn-danger" %>
 		  </td>
@@ -48,9 +56,9 @@
   <tr>
       <td>
         <span>排序</span>
-      	<%= link_to '發佈時間', topics_path(:keyword=>params[:keyword], :order => "latest") %>
-      	<%= link_to '熱門程度', topics_path(:keyword=>params[:keyword], :order => "hot") %>
-        <%= link_to '預設', topics_path %>
+      	<%= link_to '發佈時間', topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "latest") %>
+      	<%= link_to '熱門程度', topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "hot") %>
+        <%= link_to '預設', topics_path(:category=>params[:category]) %>
       </td>
 	    <td>
 	    <%= paginate @topics %>
@@ -58,3 +66,4 @@
 	</tr>
 </table>
 <%= link_to "發新文章", new_topic_path,:class =>"btn btn-primary"%>
+<%= link_to "關於本站", about_topics_path,:class =>"btn btn-default"%>

@@ -15,7 +15,12 @@ class TopicsController < ApplicationController
     if params[:keyword]
       @topics = Topic.where( [ "name like ?", "%#{params[:keyword]}%" ] )
       @topics=@topics.order(sort_by).page(params[:page]).per(8)
-    else
+    elsif params[:category]    
+      name=params[:category]
+      c=Category.find_by_name("#{name}")
+      @topics=c.topics.order(sort_by).page(params[:page]).per(8)
+      
+    else  
       @topics = Topic.all
       @topics=@topics.order(sort_by).page(params[:page]).per(8)
     end

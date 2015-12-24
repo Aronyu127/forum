@@ -1,0 +1,21 @@
+
+<table class="table">
+  <CAPTION><h1>關於本站</h1></CAPTION>
+  <tr>
+    <td><h3>總分類數:</h3></td>  
+    <td><h2><%= Category.all.size%></h2></td> 
+  </tr>
+  <tr>
+    <td><h3>總文章數:</h3></td>
+    <td><h2><%= Topic.all.size%></h2></td>
+  </tr>
+  <tr>
+    <td><h3>總使用者:</h3></td>
+    <td><h2><%= User.all.size%></h2></td>
+  </tr>
+  <tr>
+    <td><h3>總回覆數:</h3></td>
+    <td><h2><%= Comment.all.size%></h2></td>
+  </tr>
+</table>
+<%= link_to "返回首頁",topics_path,:class=>"btn btn-primary"%>
