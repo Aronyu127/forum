@@ -1,0 +1,51 @@
+
+<h1>不理不理左衛門的論壇</h1>
+
+<%= form_tag topics_path, :method => :get do %>
+  <%= text_field_tag "keyword" %>
+  <%= submit_tag "搜尋文章",:class=>"btn btn-default" %>
+<% end %>
+
+<table class="table table-hover">
+   <tr>
+   	<th>
+   		文章標題
+   	</th>
+   	<th>
+   		回覆數
+   	</th>
+   	<th>
+   		建立者
+   	</th>
+   </tr>
+<% @topics.each do |e|%>
+	 <tr>
+		  <td>
+		  	<%= e.name%>
+		  </td>
+		  <td>
+		    <%= e.comments.size%>
+		  </td>
+		  <td>
+		  	<%= e.user.try(:short_name)%>
+		  </td>
+		  <td>
+		    <%= link_to "展示文章", topic_path(e,:page => params[:page],),:class =>"btn btn-default"%>
+		    <%= link_to "修改文章", edit_topic_path(e,:page => params[:page]),:class=>"btn btn-default" %>
+		    <%= link_to "刪除文章", topic_path(e,:page => params[:page]), :method => :delete, :data =>{:confirm =>"你確定要刪除此篇文章嗎？"},:class=>"btn btn-danger" %>
+		  </td>
+	 </tr>
+	
+<%end%>
+  <tr>
+      <td>
+      	<%= link_to '照發佈時間排列', topics_path(:keyword=>params[:keyword], :order => "latest") %>
+      	<%= link_to '熱門程度排列', topics_path( :order => "hot") %>
+        <%= link_to '預設排列', topics_path %>
+      </td>
+	    <td>
+	    <%= paginate @topics %>
+	    </td>
+	</tr>
+</table>
+<%= link_to "發新文章", new_topic_path,:class =>"btn btn-primary"%>

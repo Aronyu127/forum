@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forum</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+ <%if flash[:notice].present? %>
+   <p class="alert alert-success" role="alert">
+   <%= flash[:notice] %>
+   </p>
+ <%end%>
+ <% if flash[:alert].present? %>
+   <p class="alert alert-danger" role="alert">
+    <%= flash[:alert] %>
+   </p>
+ <%end%>
+ <div class="container">   
+  <% if current_user %>
+          Hi, <%= current_user.email %>
+          <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
+          <%= link_to('修改密碼', edit_registration_path(:user)) %>
+      <% else %>
+          <%= link_to('註冊', new_registration_path(:user)) %> |
+          <%= link_to('登入', new_session_path(:user)) %>
+      <% end %>
+   
+  <%= yield %>
+ </div> 
+</body>
+</html>
