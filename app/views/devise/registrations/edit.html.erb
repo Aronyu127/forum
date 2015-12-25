@@ -1,4 +1,4 @@
-<h2>個人資料修改</h2>
+<h2>帳號資料修改</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
@@ -38,18 +38,14 @@
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :about,"關於我" %><br />
-    <%= f.text_area :about,:size =>"50x10" %>
-  </div>
 
   <div class="actions">
     <%= f.submit "更新資料",:class=>"btn btn-primary"%>
   </div>
 <% end %>
-
+<%= link_to "返回",topics_path ,:class=>"btn btn-default"%>
 <h3>註銷帳號</h3>
 
 <p><%= button_to "帳號刪除", registration_path(resource_name), data: { confirm: "確定要刪除此帳號嗎?" }, method: :delete, :class=>"btn btn-danger"%>注意！刪除的資料將無法找回</p>
 
-<%= link_to "返回",topics_path ,:class=>"btn btn-default"%>
+
