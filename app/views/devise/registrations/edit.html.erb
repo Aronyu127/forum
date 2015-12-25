@@ -1,4 +1,4 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>個人資料修改</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
@@ -13,38 +13,43 @@
   <% end %>
 
     <div class="field">
-    <%= f.label :first_name %><br />
+    <%= f.label :first_name,"姓" %><br />
     <%= f.text_field :first_name %>
   </div>
 
 
   <div class="field">
-    <%= f.label :last_name %><br />
+    <%= f.label :last_name,"名" %><br />
     <%= f.text_field :last_name %>
   </div>
   
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.label :password,"密碼" %> <i>(不需修改請留空白)</i><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation,"密碼確認" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.label :current_password,"目前密碼" %> <i>(請輸入密碼完成修改)</i><br />
     <%= f.password_field :current_password, autocomplete: "off" %>
   </div>
 
+  <div class="field">
+    <%= f.label :about,"關於我" %><br />
+    <%= f.text_area :about,:size =>"50x10" %>
+  </div>
+
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "更新資料",:class=>"btn btn-primary"%>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h3>註銷帳號</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p><%= button_to "帳號刪除", registration_path(resource_name), data: { confirm: "確定要刪除此帳號嗎?" }, method: :delete, :class=>"btn btn-danger"%>注意！刪除的資料將無法找回</p>
 
-<%= link_to "Back", :back %>
+<%= link_to "返回",topics_path ,:class=>"btn btn-default"%>

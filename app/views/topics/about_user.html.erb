@@ -1,0 +1,29 @@
+<table class="table">
+  <tr>
+  	<td><h2><%= @user.short_name%> 的個人檔案<h2></td>
+  </tr>
+  <tr>
+  	<td>姓名：</td>
+  	<td><%= @user.last_name%><%= @user.first_name%></td>
+  </tr>
+  <tr>
+  	<td>關於我：</td>
+  	<td><%= @user.about%></td>
+  </tr>
+  <tr>
+  	<td>註冊日期：</td>
+  	<td><%= @user.created_at.to_s.split("U").first%></td>
+  </tr>
+  <tr>
+  	<td>發表過的文章：</td>
+  	<td>
+  	   <% @user.topics.all.each do |t|%>
+  	   <%= link_to t.name,topic_path(t.id) %>
+  	   </br>
+  	   <%end%>
+  	</td>
+  </tr>	
+
+	
+</table>
+<%= link_to "返回首頁",topics_path,:class=>"btn btn-default"%>

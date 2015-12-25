@@ -16,25 +16,25 @@
 <%= link_to "不分類",topics_path%>
 <table class="table table-hover">
    <tr>
-   	<th>
-   		文章標題
-   	</th>
-   	<th>
-   		回覆數
-   	</th>
-    <th>
-      最新回覆時間 
-    </th>
-   	<th>
-   		建立者
-   	</th>
-   	<th>
-   	</th>
+   	 <th>
+   		 文章標題
+   	 </th>
+   	 <th>
+   		 回覆數
+     </th>
+     <th>
+       最新回覆時間 
+     </th>
+     <th>
+    	 建立者
+     </th>
+     <th>
+     </th>
    </tr>
 <% @topics.each do |e|%>
 	 <tr>
-		  <td>
-		  	<%= e.name%>
+		  <td class="topic-title">
+		  	<%= link_to e.name, topic_path(e,:page => params[:page])%>
 		  </td>
 		  <td>
 		    <%= e.comments.size%>
@@ -43,7 +43,7 @@
         <%= e.latest_comment_time%>
       </td>
 		  <td>
-		  	<%= e.user.try(:short_name)%>
+		  	<%= link_to e.user.try(:short_name), about_user_topic_path(e,:page => params[:page])%>
 		  </td>
 		  <td>
 		    <%= link_to "展示文章", topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
@@ -65,5 +65,11 @@
 	    </td>
 	</tr>
 </table>
-<%= link_to "發新文章", new_topic_path,:class =>"btn btn-primary"%>
-<%= link_to "關於本站", about_topics_path,:class =>"btn btn-default"%>
+  <%= link_to "發新文章", new_topic_path,:class =>"btn btn-primary"%>
+  <%= link_to "關於本站", about_topics_path,:class =>"btn btn-default"%>
+  <% if current_user%>
+    <% if current_user.admin?%>
+      <%= link_to "管理者頁面", admin_topic_path,:class =>"btn btn-danger"%>
+    <%end%>
+  <%end%>  
+

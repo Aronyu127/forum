@@ -1,16 +1,19 @@
 Rails.application.routes.draw do
    
-  devise_for :users
+  devise_for :users    
   
-    resources :topics do
-      resources :comments, :controller =>"topic_comments"
+  resources :topics do
+    resources :comments, :controller =>"topic_comments"
       collection do
         get :about
-      end  
-    end 
-    namespace :admin do
-      resources :topics
-    end
+      end 
+      member do
+        get :about_user
+      end   
+  end 
+  namespace :admin do
+    resources :topics
+  end
 
   root "topics#index"
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,7 +1,7 @@
 class TopicsController < ApplicationController
   before_action :authenticate_user!, :except => [:index,:show]
-  before_action :set_topic, :only =>[:edit,:destroy,:show,:update]
-
+  before_action :set_topic, :only =>[:edit,:destroy,:show,:update,:about_user]
+  # before_action :authenticate_admin, :only =>
   def index
      
     if params[:order]=="latest"
@@ -27,54 +27,67 @@ class TopicsController < ApplicationController
   end	
   
   def show
-     if params[:comment_id]
+    if params[:comment_id]
       @comment=Comment.find(params[:comment_id])
-     else
+    else
       @comment=Comment.new
-     end 
-     @comments=@topic.comments
+    end 
+      @comments=@topic.comments
   end	
   def new
   	 @topic=Topic.new
   end
 
   def create
-     @topic=Topic.new(topic_params)
-     @topic.user = current_user
-     if @topic.save
+    @topic=current_user.topics.new(topic_params)
+    
+    if @topic.save
       redirect_to topics_path
-       flash[:notice]="發表成功"
-     else render :action => :new
-     end    
+      flash[:notice]="發表成功"
+    else 
+      render :action => :new
+      flash[:alert]="文章主題與內容皆不可留白"
+    end    
   end
 
   def edit
   end	
 
   def update
-     if @topic.update(topic_params)
-      flash[:notice]="修改成功"
-      redirect_to topics_path(:page => params[:page])
-     else render :action => :edit
-     end	
+    if @topic.update(topic_params)
+     flash[:notice]="修改成功"
+     redirect_to topics_path(:page => params[:page])
+    else render :action => :edit
+    end	
   end	
 
   def destroy
   	 
-     @topic.destroy
-     flash[:alert]="刪除文章"
+    @topic.destroy
+    flash[:alert]="刪除文章"
 
-     redirect_to topics_path(:page => params[:page])
+    redirect_to topics_path(:page => params[:page])
+  end
+     
+  def about_user
+    @user=@topic.user
+
+  def authenticate_admin
+    unless current_user.admin?
+      flash[:alert]="你沒有管理者權限"
+      redirect_to topics_path
+    end  
+  end
   end	
 	private
 
-	def topic_params
-	params.require(:topic).permit(:name,:content,:comments_count,:category_ids=>[]) 
-	end
+	  def topic_params
+	    params.require(:topic).permit(:name,:content,:comments_count,:category_ids=>[]) 
+	  end
 
-	def set_topic
+	  def set_topic
      @topic=Topic.find(params[:id])
      
-	end	
+	  end	
 
-end
+ end
