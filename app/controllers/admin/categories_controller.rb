@@ -32,9 +32,14 @@ class Admin::CategoriesController < ApplicationController
   end	
 
   def destroy
-    @category.destroy
-    redirect_to admin_categories_path
-    flash[:alert]="刪除成功"
+    if @category.topics.all==[] 
+       @category.destroy
+      redirect_to admin_categories_path
+      flash[:alert]="刪除成功"
+    else  
+      redirect_to admin_categories_path
+      flash[:alert]="無法刪除 該分類已存在文章"
+    end  
   end	
 
   private
