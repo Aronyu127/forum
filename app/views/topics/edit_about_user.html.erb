@@ -1,6 +1,9 @@
-<%= form_for user%>  
+<%= form_for @user, :url => update_about_user_topics_path do |f|%>  
 
   <div class="field">
     <%= f.label :about,"關於我" %><br />
     <%= f.text_area :about,:size =>"50x10" %>
   </div>
+
+    <%= f.submit "送出",:class => "btn btn-primary" %>
+  <%end%>

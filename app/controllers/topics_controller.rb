@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
   before_action :authenticate_user!, :except => [:index,:show]
   before_action :set_topic, :only =>[:edit,:destroy,:show,:update,:about_user]
+  before_action :set_user, :only =>[:center_user,:edit_about_user,:update_about_user]
   # before_action :authenticate_admin, :only =>
   def index
      
@@ -8,6 +9,8 @@ class TopicsController < ApplicationController
       sort_by = "last_comment_time DESC"
     elsif params[:order]=="hot"
       sort_by = "comments_count DESC"
+    elsif params[:order]=="viewer"
+      sort_by = "viewer DESC"  
     else
       sort_by="created_at"
     end 
@@ -27,12 +30,17 @@ class TopicsController < ApplicationController
   end	
   
   def show
+    t=@topic
+    t.viewer+=1
+    t.save
     if params[:comment_id]
       @comment=Comment.find(params[:comment_id])
     else
       @comment=Comment.new
     end 
       @comments=@topic.comments
+
+
   end	
   def new
   	 @topic=Topic.new
@@ -51,26 +59,57 @@ class TopicsController < ApplicationController
   end
 
   def edit
+    if @topic.user!=current_user
+      redirect_to topics_path(:page => params[:page])
+      flash[:alert]="您僅能修改自己所發布的文章"
+    end
   end	
 
   def update
-    if @topic.update(topic_params)
+     @topic=Topic.find(params[:id])
+
+    if @topic.user!=current_user
+      redirect_to topics_path(:page => params[:page])
+      flash[:alert]="您僅能修改自己所發布的文章"
+    elsif @topic.update(topic_params)
      flash[:notice]="修改成功"
      redirect_to topics_path(:page => params[:page])
-    else render :action => :edit
-    end	
-  end	
+    else 
+      render :action => :edit  
+      flash[:alert]="文章主題與內容皆不可留白"
+    end 
+  end 	
 
   def destroy
-  	 
+    if @topic.user!=current_user
+      redirect_to topics_path(:page => params[:page])
+      flash[:alert]="您僅能刪除自己所發布的文章"
+    else 
     @topic.destroy
     flash[:alert]="刪除文章"
-
     redirect_to topics_path(:page => params[:page])
+    end
   end
      
   def about_user
     @user=@topic.user
+  end
+
+  def center_user
+  end
+
+  def edit_about_user 
+  end  
+
+  def update_about_user 
+    if @user.update(user_params)
+      redirect_to center_user_topics_path
+      flash[:notice]="更改成功"
+    else 
+      redirect_to edit_about_user_topic_path(@user)
+      flash[:alert]="更改失敗"
+    end     
+  end
 
   def authenticate_admin
     unless current_user.admin?
@@ -78,16 +117,24 @@ class TopicsController < ApplicationController
       redirect_to topics_path
     end  
   end
-  end	
+
 	private
 
 	  def topic_params
-	    params.require(:topic).permit(:name,:content,:comments_count,:category_ids=>[]) 
+	    params.require(:topic).permit(:name,:content,:comments_count,:about,:category_ids=>[]) 
 	  end
+
+    def user_params
+      params.require(:user).permit(:about)
+    end
 
 	  def set_topic
      @topic=Topic.find(params[:id])
      
 	  end	
+
+    def set_user
+     @user=current_user  
+    end 
 
  end

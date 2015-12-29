@@ -18,19 +18,16 @@
     <%= flash[:alert] %>
    </p>
  <%end%>
- <div class="container">  
-   <div>
-     <img src="http://goo.gl/rZJXmp" alt="" style="max-width:100%" >
-   </div> 
-   <% if current_user %>  
-          Hi, <%= current_user.email %>
+ <div class="container">   
+  <% if current_user %>
+     <div><img src="http://goo.gl/rZJXmp" alt="" style="max-width:100%" ></div>
+          Hi 本站管理者 <%= current_user.email %>
       <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
       <%= link_to('會員中心',center_user_topics_path(:user)) %>
-   <% else %>
+    <% else %>
       <%= link_to('註冊', new_registration_path(:user)) %> |
       <%= link_to('登入', new_session_path(:user)) %>
-      <%= link_to "Facebook 登入", user_omniauth_authorize_path(:facebook) %>
-   <% end %>
+    <% end %>
    
   <%= yield %>
  </div> 

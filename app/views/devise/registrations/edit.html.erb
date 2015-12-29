@@ -43,7 +43,7 @@
     <%= f.submit "更新資料",:class=>"btn btn-primary"%>
   </div>
 <% end %>
-<%= link_to "返回",topics_path ,:class=>"btn btn-default"%>
+<%= link_to "返回",center_user_topics_path ,:class=>"btn btn-default"%>
 <h3>註銷帳號</h3>
 
 <p><%= button_to "帳號刪除", registration_path(resource_name), data: { confirm: "確定要刪除此帳號嗎?" }, method: :delete, :class=>"btn btn-danger"%>注意！刪除的資料將無法找回</p>

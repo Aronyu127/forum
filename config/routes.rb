@@ -1,19 +1,25 @@
 Rails.application.routes.draw do
    
-  devise_for :users    
+  devise_for :users,:controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }    
   
   resources :topics do
     resources :comments, :controller =>"topic_comments"
-      collection do
-        get :about
-      end 
-      member do
-        get :about_user
-      end   
+    collection do
+      get :about
+      get :edit_about_user
+      patch :update_about_user
+      get :center_user
+
+    end 
+    member do
+      get :about_user       
+    end   
   end 
   namespace :admin do
-    resources :topics
+    resources :topics 
+    resources :categories    
   end
+
 
   root "topics#index"
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,0 +1,12 @@
+<h1><%= @user.short_name%>的會員中心</h1>
+<ul>
+	<li>
+		<%= link_to '修改帳號資料',edit_registration_path(:user),:class=>"btn btn-default" %>
+	</li>
+	<li>
+		<%= link_to "修改個人資料",edit_about_user_topics_path(:user),:class=>"btn btn-default"%>
+	</li>
+</ul>
+
+
+<%= link_to "返回首頁",topics_path,:class=>"btn btn-primary"%>

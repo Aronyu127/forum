@@ -36,8 +36,10 @@
     </tr> 
     <tr>   
       <td>
-        <%= link_to "修改",topic_path(@topic,:comment_id=>c),:class => "btn btn-default"%>
-        <%= link_to "刪除",topic_comment_path(@topic,c),:method=>:delete,:class => "btn btn-danger"%>
+        <%if c.user==current_user%>
+          <%= link_to "修改",topic_path(@topic,:comment_id=>c),:class => "btn btn-default"%>
+          <%= link_to "刪除",topic_comment_path(@topic,c),:method=>:delete,:class => "btn btn-danger"%>
+        <%end%>
       </td>    
     </tr> 
     <tr>

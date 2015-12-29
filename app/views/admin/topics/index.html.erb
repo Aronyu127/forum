@@ -1,5 +1,6 @@
 
-<h1>致青春的一封信-校園聊天 </h1>
+
+<h1>致青春的一封信-校園聊天 (管理者模式)</h1>
 
 <%= form_tag topics_path, :method => :get do %>
   <%= text_field_tag "keyword" %>
@@ -14,6 +15,7 @@
 <%= link_to "兩性",topics_path(:category=>"兩性")%>/
 <%= link_to "運動",topics_path(:category=>"運動")%>/
 <%= link_to "不分類",topics_path%>
+<%= link_to "管理分類",admin_categories_path,:class=>'btn btn-primary'%>
 <table class="table table-hover">
   <thead> 
     <tr>
@@ -55,10 +57,9 @@
 		  </td>
 		  <td>
 		    <%= link_to "展示文章", topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
-        <%if e.user==current_user%>
+        
 		      <%= link_to "修改文章", edit_topic_path(e,:page => params[:page]),:class=>"btn btn-default" %>
 		      <%= link_to "刪除文章", topic_path(e,:page => params[:page]), :method => :delete, :data =>{:confirm =>"你確定要刪除此篇文章嗎？"},:class=>"btn btn-danger" %>
-        <%end%>
 		  </td>
 	 </tr>
 	
@@ -83,4 +84,3 @@
       <%= link_to "管理者頁面", admin_topics_path,:class =>"btn btn-danger"%>
     <%end%>
   <%end%>  
-
