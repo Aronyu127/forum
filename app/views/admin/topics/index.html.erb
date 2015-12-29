@@ -7,13 +7,9 @@
   <%= submit_tag "搜尋文章",:class=>"btn btn-default" %>
 <% end %>
 <span>全站分類:</span>
-<%= link_to "幻想",topics_path(:category=>"幻想")%>/
-<%= link_to "校園",topics_path(:category=>"校園")%>/
-<%= link_to "魔法",topics_path(:category=>"魔法")%>/
-<%= link_to "網遊",topics_path(:category=>"網遊")%>/
-<%= link_to "日記",topics_path(:category=>"日記")%>/
-<%= link_to "兩性",topics_path(:category=>"兩性")%>/
-<%= link_to "運動",topics_path(:category=>"運動")%>/
+<% Category.all.each do |c|%>
+  <%= link_to "#{c.name}",topics_path(:category=>"#{c.name}")%>/
+<%end%>
 <%= link_to "不分類",topics_path%>
 <%= link_to "管理分類",admin_categories_path,:class=>'btn btn-primary'%>
 <table class="table table-hover">

@@ -7,20 +7,27 @@
 </thead>
 <% @categories.each do |e|%>
   <tr>
-	  <td>
       <%if params[:categories]&& e.id==@category.id%>
+    <td>  
         <%= form_for @category,:url=>admin_category_path(e) do |f|%>
-		    <%= f.label :name,'新增類別名稱'%>
-		    <%= f.text_field :name,:class=>"form-control"%> 	  
-	      <%= f.submit "送出",:class => "btn btn-primary" %>
-	        <%end%>
+		    <%= f.text_field :name,:class=>"form-control"%> 
+		    <%= f.submit "送出",:class => "btn btn-primary" %>
+		</td>
+		<td>   	  
+	      
+	      <%end%>
+	      <%= link_to "刪除類別",admin_category_path(e),:method=>:delete,:data =>{:confirm =>"你確定要刪除此類別嗎？"},:class=>"btn btn-danger"%>
+	  </td>    
+	        
       <%else%>
-	      <%=e.name%>
-	    <%end%>
+    <td>  
+	    <%= e.name%>	    
 	  </td>
 	  <td>
 	  <%= link_to "修改",admin_categories_path(:categories=>e),:class=>"btn btn-default"%>
+	  
 	  <%= link_to "刪除類別",admin_category_path(e),:method=>:delete,:data =>{:confirm =>"你確定要刪除此類別嗎？"},:class=>"btn btn-danger"%>
+	    <%end%>
 	  </td>
   </tr>
 <%end%>
@@ -32,9 +39,14 @@
 		    <%= f.text_field :name,:class=>"form-control"%> 	  
 	      <%= f.submit "送出",:class => "btn btn-primary" %>
 	    <%end%> 
-	    <%= link_to "回到上一頁",admin_topics_path,:class => "btn btn-default" %> 
+	    
     </td>  
       <%end%>
+  </tr>
+  <tr>
+  	<td>
+  	  <%= link_to "回到上一頁",admin_topics_path,:class => "btn btn-default" %> 
+  	</td>
   </tr>
 </table>
 
