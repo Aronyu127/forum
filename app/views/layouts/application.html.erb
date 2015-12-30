@@ -7,8 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
- <%if flash[:notice].present? %>
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.5&appId=1242116209148369";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  <%if flash[:notice].present? %>
    <p class="alert alert-success" role="alert">
    <%= flash[:notice] %>
    </p>
@@ -19,6 +26,7 @@
    </p>
  <%end%>
  <div class="container">  
+   <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
    <div>
      <img src="http://goo.gl/rZJXmp" alt="" style="max-width:100%" >
    </div> 
