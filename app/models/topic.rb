@@ -5,6 +5,9 @@ class Topic < ActiveRecord::Base
   has_many :comments, :dependent=>:destroy
   has_many :topic_categoryships
   has_many :categories, :through => :topic_categoryships 
+
+  has_many :collectionships, :dependent=>:destroy
+  has_many :collected_users, :through=>:collectionships, :source=>:user
   
   def latest_comment_time
     #self.last_comment_time.to_s(:short)

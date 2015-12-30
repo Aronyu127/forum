@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :topics  
   has_many :comments
 
+  has_many :collectionships, :dependent=>:destroy
+  has_many :collected_topics, :through=>:collectionships, :source=>:topic
+
   def short_name
     self.email.split("@").first
   end       

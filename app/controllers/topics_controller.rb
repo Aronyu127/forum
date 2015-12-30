@@ -1,11 +1,9 @@
 class TopicsController < ApplicationController
 
   before_action :authenticate_user!, :except => [:index, :show]
-  before_action :set_topic, :only =>[:show, :about_user]
+  before_action :set_topic, :only =>[:show, :about_user,:collect,:destroy_collect]
   before_action :set_my_topic, :only =>[:edit, :destroy, :update]
   
-  before_action :set_user, :only =>[:center_user, :edit_about_user, :update_about_user]
-
   def index
      
     if params[:order]=="latest"
@@ -76,7 +74,27 @@ class TopicsController < ApplicationController
     flash[:alert] = "刪除文章"
     redirect_to topics_path(:page => params[:page])
   end
-     
+
+  def collect
+    @user=current_user
+    if current_user.collected_topics.find_by_id(@topic.id)
+      redirect_to topics_path(:page => params[:page])
+      flash[:alert]="您已收藏過該文章"
+    else  
+      @collectionship=Collectionship.new(:user_id=>@user.id,:topic_id=>@topic.id)
+      @collectionship.save
+      redirect_to topics_path(:page => params[:page])
+    end  
+  end  
+
+  def destroy_collect
+    @user=current_user
+    @collectionship=Collectionship.find_by_topic_id(@topic.id)
+    @collectionship.destroy
+
+    flash[:alert] = "取消收藏"
+    redirect_to topics_path(:page => params[:page])
+  end   
 
 	private
 

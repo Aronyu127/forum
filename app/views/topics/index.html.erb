@@ -46,6 +46,12 @@
         <% if e.user == current_user %>
 		      <%= link_to "修改文章", edit_topic_path(e,:page => params[:page]),:class=>"btn btn-default" %>
 		      <%= link_to "刪除文章", topic_path(e,:page => params[:page]), :method => :delete, :data =>{:confirm =>"你確定要刪除此篇文章嗎？"},:class=>"btn btn-danger" %>
+        <%else%>  
+          <%if current_user.collected_topics.find_by_id(e.id)%>
+            <%= link_to "取消收藏", destroy_collect_topic_path(e),:class=>"btn btn-danger"%>
+          <%else%>
+            <%= link_to "收藏該文章", collect_topic_path(e),:class=>"btn btn-primary"%>
+          <%end%>  
         <%end%>
 		  </td>
 	 </tr>	

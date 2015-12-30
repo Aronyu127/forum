@@ -4,15 +4,10 @@ Rails.application.routes.draw do
   
   resources :topics do
     resources :comments, :controller =>"topic_comments"
-    # collection do    
-    #   get :edit_about_user     # move to resources :users
-    #   patch :update_about_user # move to resources :users
-    #   get :center_user         # move to resources :users
-
-    # end 
-    # member do
-    #   get :about_user # move to resources :users      
-    # end   
+    member do 
+      get :collect 
+      get :destroy_collect 
+    end
   end 
 
   resources :users do
