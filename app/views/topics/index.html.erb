@@ -39,7 +39,7 @@
         <%= e.latest_comment_time %>
       </td>
 		  <td>
-		  	<%= link_to e.user.try(:short_name), about_user_topic_path(e,:page => params[:page])%>
+		  	<%= link_to e.user.try(:short_name), user_path(e.user,:page => params[:page])%>
 		  </td>
 		  <td>
 		    <%= link_to "展示文章", topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
@@ -65,7 +65,7 @@
  <p><%= paginate @topics %></p>
 
   <%= link_to "發新文章", new_topic_path, :class =>"btn btn-primary"%>
-  <%= link_to "關於本站", about_topics_path, :class =>"btn btn-default"%>
+  <%= link_to "關於本站", about_path, :class =>"btn btn-default"%>
 
   <% if current_user && current_user.admin?%>
     <%= link_to "管理者模式", admin_topics_path, :class =>"btn btn-danger"%>

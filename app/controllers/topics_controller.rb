@@ -77,25 +77,6 @@ class TopicsController < ApplicationController
     redirect_to topics_path(:page => params[:page])
   end
      
-  def about_user
-    @user = @topic.user
-  end
-
-  def center_user
-  end
-
-  def edit_about_user 
-  end  
-
-  def update_about_user 
-    if @user.update(user_params)
-      redirect_to center_user_topics_path
-      flash[:notice]="更改成功"
-    else 
-      redirect_to edit_about_user_topic_path(@user)
-      flash[:alert]="更改失敗"
-    end     
-  end
 
 	private
 
@@ -103,9 +84,6 @@ class TopicsController < ApplicationController
     params.require(:topic).permit(:name,:content,:comments_count,:about,:category_ids=>[]) 
   end
 
-  def user_params
-    params.require(:user).permit(:about)
-  end
 
   def set_topic
    @topic = Topic.find(params[:id])
@@ -115,8 +93,6 @@ class TopicsController < ApplicationController
     @topic = current_user.topics.find(params[:id])
   end
 
-  def set_user
-   @user = current_user  
-  end 
+  
 
  end

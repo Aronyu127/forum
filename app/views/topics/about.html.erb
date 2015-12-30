@@ -18,4 +18,7 @@
     <td><h2><%= Comment.all.size%></h2></td>
   </tr>
 </table>
-<%= link_to "返回首頁",topics_path,:class=>"btn btn-primary"%>
+
+<%#= link_to "返回上一頁",topics_path, :class=>"btn btn-primary" %>
+
+<%= link_to "返回上一頁", "#",:class=>"btn btn-primary", :onclick => "window.history.go(-1)" %>

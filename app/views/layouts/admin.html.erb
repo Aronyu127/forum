@@ -23,7 +23,7 @@
      <div><img src="http://goo.gl/rZJXmp" alt="" style="max-width:100%" ></div>
           Hi 本站管理者 <%= current_user.email %>
       <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
-      <%= link_to('會員中心',center_user_topics_path(:user)) %>
+      <%= link_to('會員中心',center_user_path(:user)) %>
     <% else %>
       <%= link_to('註冊', new_registration_path(:user)) %> |
       <%= link_to('登入', new_session_path(:user)) %>

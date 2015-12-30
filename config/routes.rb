@@ -4,17 +4,22 @@ Rails.application.routes.draw do
   
   resources :topics do
     resources :comments, :controller =>"topic_comments"
-    collection do
-      get :about               # get "/about" => "topics#about"
-      get :edit_about_user     # move to resources :users
-      patch :update_about_user # move to resources :users
-      get :center_user         # move to resources :users
+    # collection do    
+    #   get :edit_about_user     # move to resources :users
+    #   patch :update_about_user # move to resources :users
+    #   get :center_user         # move to resources :users
 
-    end 
-    member do
-      get :about_user # move to resources :users      
-    end   
+    # end 
+    # member do
+    #   get :about_user # move to resources :users      
+    # end   
   end 
+
+  resources :users do
+    member do  
+      get :center      # move to resources :users
+    end  
+  end  
   namespace :admin do
     resources :topics 
     resources :categories 
@@ -22,7 +27,7 @@ Rails.application.routes.draw do
 
   end
 
-
+  get "/about" => "topics#about"
   root "topics#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

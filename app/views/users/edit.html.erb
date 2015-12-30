@@ -3,9 +3,11 @@
 
 <h4>已發布文章</h4>
 <% @user.topics.each do |t|%>
-  <%= link_to t.name,topic_path(t.id) %>
+  <div>	
+    <%= link_to t.name,topic_path(t.id) %>
+  </div>
 <%end%>  
-<%= form_for @user, :url => update_about_user_topics_path do |f|%>  
+<%= form_for @user, :url => user_path(@user) do |f|%>  
 
   <div class="field">
     <%= f.label :about,"關於我" %><br />

@@ -2,34 +2,24 @@
 
 <h1>致青春的一封信-校園聊天 (管理者模式)</h1>
 
-<%= form_tag topics_path, :method => :get do %>
+<%= form_tag admin_topics_path, :method => :get do %>
   <%= text_field_tag "keyword" %>
   <%= submit_tag "搜尋文章",:class=>"btn btn-default" %>
 <% end %>
 <span>全站分類:</span>
 <% Category.all.each do |c|%>
-  <%= link_to "#{c.name}",topics_path(:category=>"#{c.name}")%>/
+  <%= link_to "#{c.name}",admin_topics_path(:category=>"#{c.name}")%>/
 <%end%>
-<%= link_to "不分類",topics_path%>
-<%= link_to "管理分類",admin_categories_path,:class=>'btn btn-primary'%>
+<%= link_to "不分類",admin_topics_path%>
+<%= link_to "網站控制台",admin_categories_path,:class=>'btn btn-primary'%>
 <table class="table table-hover">
   <thead> 
     <tr>
-   	 <th>
-   		 文章標題
-   	 </th>
-     <th>
-       瀏覽數
-     </th>
-   	 <th>
-   		 回覆數
-     </th>
-     <th>
-       最新回覆時間 
-     </th>
-     <th>
-    	 建立者
-     </th>
+   	 <th>文章標題</th>
+     <th>瀏覽數</th>
+   	 <th>回覆數</th>
+     <th>最新回覆時間</th>
+     <th>建立者</th>
      <th>
      </th>
    </tr>
@@ -37,7 +27,7 @@
 <% @topics.each do |e|%>
 	 <tr>
 		  <td class="topic-title">
-		  	<%= link_to e.name, topic_path(e,:page => params[:page])%>
+		  	<%= link_to e.name, admin_topic_path(e,:page => params[:page])%>
 		  </td>
       <td>
         <%= e.viewer%>
@@ -49,7 +39,7 @@
         <%= e.latest_comment_time%>
       </td>
 		  <td>
-		  	<%= link_to e.user.try(:short_name), about_user_topic_path(e,:page => params[:page])%>
+		  	<%= link_to e.user.try(:short_name), user_path(e.user,:page => params[:page])%>
 		  </td>
 		  <td>
 		    <%= link_to "展示文章", admin_topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
@@ -63,10 +53,10 @@
   <tr>
       <td>
         <span>排序</span>
-      	<%= link_to '最後回覆時間', topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "latest") %>
-      	<%= link_to '回覆人數', topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "hot") %>
-        <%= link_to '瀏覽人數', topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "viewer") %>
-        <%= link_to '預設', topics_path(:category=>params[:category]) %>
+      	<%= link_to '最後回覆時間', admin_topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "latest") %>
+      	<%= link_to '回覆人數', admin_topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "hot") %>
+        <%= link_to '瀏覽人數', admin_topics_path(:keyword=>params[:keyword],:category=>params[:category], :order => "viewer") %>
+        <%= link_to '預設', admin_topics_path(:category=>params[:category]) %>
       </td>
 	    <td>
 	    <%= paginate @topics %>
@@ -74,9 +64,9 @@
 	</tr>
 </table>
   <%= link_to "發新文章", new_topic_path,:class =>"btn btn-primary"%>
-  <%= link_to "關於本站", about_topics_path,:class =>"btn btn-default"%>
+  <%= link_to "關於本站", about_path,:class =>"btn btn-default"%>
   <% if current_user%>
     <% if current_user.admin?%>
-      <%= link_to "普通使用者模式",topics_path,:class =>"btn btn-danger"%>
+      <%= link_to "普通使用者模式",topics_path,:class =>"btn btn-default"%>
     <%end%>
   <%end%>  

@@ -1,0 +1,4 @@
+ <%= form_for @topic, :url=> topic_path(@topic,:page => params[:page]) do |f|%>
+ <%= render :partial => 'form',:locals => {:f =>f}%>
+
+ <% end %>
