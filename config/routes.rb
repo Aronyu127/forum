@@ -5,19 +5,21 @@ Rails.application.routes.draw do
   resources :topics do
     resources :comments, :controller =>"topic_comments"
     collection do
-      get :about
-      get :edit_about_user
-      patch :update_about_user
-      get :center_user
+      get :about               # get "/about" => "topics#about"
+      get :edit_about_user     # move to resources :users
+      patch :update_about_user # move to resources :users
+      get :center_user         # move to resources :users
 
     end 
     member do
-      get :about_user       
+      get :about_user # move to resources :users      
     end   
   end 
   namespace :admin do
     resources :topics 
-    resources :categories    
+    resources :categories 
+    resources :users
+
   end
 
 

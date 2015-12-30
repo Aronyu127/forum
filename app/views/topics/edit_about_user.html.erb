@@ -1,3 +1,10 @@
+
+<h3><%= @user.try(:short_name)%> 的個人檔案</h3>
+
+<h4>已發布文章</h4>
+<% @user.topics.each do |t|%>
+  <%= link_to t.name,topic_path(t.id) %>
+<%end%>  
 <%= form_for @user, :url => update_about_user_topics_path do |f|%>  
 
   <div class="field">

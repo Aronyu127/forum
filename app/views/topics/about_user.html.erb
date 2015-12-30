@@ -12,7 +12,7 @@
   </tr>
   <tr>
   	<td>註冊日期：</td>
-  	<td><%= @user.created_at.to_s.split("U").first%></td>
+  	<td><%= @user.created_at.to_s(:short) %></td>
   </tr>
   <tr>
   	<td>發表過的文章：</td>

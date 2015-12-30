@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
 
-  ROLE_ADMIN="admin"
+  ROLE_ADMIN = "admin"
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, 
          :omniauthable, :omniauth_providers => [:facebook]
+  
   has_many :topics  
   has_many :comments
 
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   end       
   
   def admin?
-  	self.role==ROLE_ADMIN
+  	self.role == ROLE_ADMIN
   end	
 
   def self.from_omniauth(auth)

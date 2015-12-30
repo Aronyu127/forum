@@ -1,4 +1,5 @@
 class Topic < ActiveRecord::Base
+
 	validates_presence_of :name, :content
   belongs_to :user
   has_many :comments, :dependent=>:destroy
@@ -6,12 +7,12 @@ class Topic < ActiveRecord::Base
   has_many :categories, :through => :topic_categoryships 
   
   def latest_comment_time
-    self.last_comment_time.to_s.split("U").first
+    #self.last_comment_time.to_s(:short)
+    if last_comment_time
+      self.last_comment_time.strftime("%Y-%m-%d %H:%M")
+    else
+      "N/A"
+    end
   end  
 
-  def category_topics
-      name=params[:category]
-      c=Category.find_by_name("#{name}")
-      @topics=c.topics.all
-  end  
 end

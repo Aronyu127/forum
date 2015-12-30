@@ -1,39 +1,36 @@
 
 <h4>文章標題</h4>
-<h3><%= @topic.name%></h3>
+<h3><%= @topic.name %></h3>
 <p>討論者
  <% @topic.comments.each do |u|%>
- <%= u.user.try(:short_name)%>,
-<%end%>
+  <%= u.user.try(:short_name)%>,
+ <% end %>
 </p>
 
 <h5>標籤</h5>
 <h4>
  <% @topic.categories.each do |n|%>
- <%= n.name%>
+  <%= n.name%>
  <%end%>
 </h4>
+
 <h4>文章內容</h4>
 <h5><%= @topic.content%></h5>
 <h4>回覆數(<%=@topic.comments.size%>)</h4>
-<div>
-  <!--  建立者
-   <%= @topic.user.try(:email)%> -->
-</div>
+
  <table>
-     <% @comments.each do |c|%>
+    <% @comments.each do |c|%>
     <tr>
       <td>
-        <% if c.id == params[:comment_id].to_i%>
+        <% if c.id == params[:comment_id].to_i %>
         <%= form_for @comment, :url => topic_comment_path(@topic,@comment) do |f|%>
           <div class="form-group">  
             <%= f.text_field :content,:class=>"form-control" %>
             <%= f.submit "儲存",:class => "btn btn-primary" %>
           </div>
-    </tr>      
         <%end%>
       
-       <%else%>
+       <% else %>
           <span>來自</span>
            <%= c.user.try(:short_name)%>
           <span>的回覆</span>
@@ -41,7 +38,7 @@
     </tr> 
     <tr>   
       <td>
-        <%if c.user==current_user%>
+        <% if c.user == current_user %>
           <%= link_to "修改",topic_path(@topic,:comment_id=>c),:class => "btn btn-default"%>
           <%= link_to "刪除",topic_comment_path(@topic,c),:method=>:delete,:class => "btn btn-danger"%>
         <%end%>
@@ -55,13 +52,8 @@
     <%end%>
   <%end%>
  </table>
- <!--  <% if params[:comment_id]%>
-  <% url=topic_comment_path(@topic,@comment)%>
-  <%else%>
-  <% url=topic_comments_path(@topic)%>
-  <%end%> -->
- 
-  <%unless params[:comment_id]%>
+
+  <% unless params[:comment_id] %>
     <%= form_for @comment, :url => topic_comments_path(@topic) do |f|%>
       <div class="form-group">  
        <%= f.text_field :content,:class=>"form-control" %>   

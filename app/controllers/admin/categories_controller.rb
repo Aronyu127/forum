@@ -47,11 +47,13 @@ class Admin::CategoriesController < ApplicationController
     end  
   end	
 
+
   private
 
     def category_params
-      params.require(:category).permit(:id, :name) 
+      params.require(:category).permit(:id, :name,) 
     end
+
 
     def set_category
       @category= Category.find(params[:id])
