@@ -1,6 +1,11 @@
 
 <h4>文章標題</h4>
 <h3><%= @topic.name%></h3>
+<p>討論者
+ <% @topic.comments.each do |u|%>
+ <%= u.user.try(:short_name)%>,
+<%end%>
+</p>
 
 <h5>標籤</h5>
 <h4>

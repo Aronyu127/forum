@@ -55,7 +55,7 @@ class Admin::TopicsController < ApplicationController
     @topic=current_user.topics.new(topic_params)
     
     if @topic.save
-      redirect_to topics_path
+      redirect_to admin_topics_path
       flash[:notice]="發表成功"
     else 
       render :action => :new
@@ -73,7 +73,7 @@ class Admin::TopicsController < ApplicationController
     
     if @topic.update(topic_params)
      flash[:notice]="修改成功"
-     redirect_to topics_path(:page => params[:page])
+     redirect_to admin_topics_path(:page => params[:page])
     else 
       render :action => :edit  
       flash[:alert]="文章主題與內容皆不可留白"
@@ -83,7 +83,7 @@ class Admin::TopicsController < ApplicationController
   def destroy    
     if @topic.destroy
       flash[:alert]="刪除文章"
-      redirect_to topics_path(:page => params[:page])
+      redirect_to admin_topics_path(:page => params[:page])
     end
   end
      

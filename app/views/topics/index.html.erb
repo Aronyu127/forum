@@ -76,7 +76,7 @@
   <%= link_to "關於本站", about_topics_path,:class =>"btn btn-default"%>
   <% if current_user%>
     <% if current_user.admin?%>
-      <%= link_to "管理者頁面", admin_topics_path,:class =>"btn btn-danger"%>
+      <%= link_to "管理者模式", admin_topics_path,:class =>"btn btn-danger"%>
     <%end%>
   <%end%>  
 

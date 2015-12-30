@@ -52,10 +52,10 @@
 		  	<%= link_to e.user.try(:short_name), about_user_topic_path(e,:page => params[:page])%>
 		  </td>
 		  <td>
-		    <%= link_to "展示文章", topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
+		    <%= link_to "展示文章", admin_topic_path(e,:page => params[:page]),:class =>"btn btn-default"%>
         
-		      <%= link_to "修改文章", edit_topic_path(e,:page => params[:page]),:class=>"btn btn-default" %>
-		      <%= link_to "刪除文章", topic_path(e,:page => params[:page]), :method => :delete, :data =>{:confirm =>"你確定要刪除此篇文章嗎？"},:class=>"btn btn-danger" %>
+		      <%= link_to "修改文章", edit_admin_topic_path(e,:page => params[:page]),:class=>"btn btn-default" %>
+		      <%= link_to "刪除文章",admin_topic_path(e,:page => params[:page]), :method => :delete, :data =>{:confirm =>"你確定要刪除此篇文章嗎？"},:class=>"btn btn-danger" %>
 		  </td>
 	 </tr>
 	
@@ -77,6 +77,6 @@
   <%= link_to "關於本站", about_topics_path,:class =>"btn btn-default"%>
   <% if current_user%>
     <% if current_user.admin?%>
-      <%= link_to "管理者頁面", admin_topics_path,:class =>"btn btn-danger"%>
+      <%= link_to "普通使用者模式",topics_path,:class =>"btn btn-danger"%>
     <%end%>
   <%end%>  
