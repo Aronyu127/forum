@@ -1,15 +1,12 @@
 class Admin::TopicsController < ApplicationController
 
+  layout "admin"
+
 	before_action :authenticate_user!
-
-	before_action :check_admin
-
-    layout "admin"
-
-  before_action :authenticate_user!, :except => [:index,:show]
   before_action :set_topic, :only =>[:edit,:destroy,:show,:update,:about_user]
   before_action :set_user, :only =>[:center_user,:edit_about_user,:update_about_user]
-  # before_action :authenticate_admin, :only =>
+  before_action :authenticate_admin
+
   def index
      
     if params[:order]=="latest"
@@ -107,16 +104,6 @@ class Admin::TopicsController < ApplicationController
     end     
   end
 
- 
-  
-
-  def authenticate_admin
-    unless current_user.admin?
-      flash[:alert]="你沒有管理者權限"
-      redirect_to topics_path
-    end  
-  end
-
   private
 
     def topic_params
@@ -136,9 +123,4 @@ class Admin::TopicsController < ApplicationController
      @user=current_user  
     end 
 
-    def check_admin 
-    	unless current_user.role=="admin"
-        redirect_to root_path
-    	end	
-    end
 end
