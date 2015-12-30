@@ -1,8 +1,11 @@
 class TopicsController < ApplicationController
-  before_action :authenticate_user!, :except => [:index,:show]
-  before_action :set_topic, :only =>[:edit,:destroy,:show,:update,:about_user]
-  before_action :set_user, :only =>[:center_user,:edit_about_user,:update_about_user]
-  # before_action :authenticate_admin, :only =>
+
+  before_action :authenticate_user!, :except => [:index, :show]
+  before_action :set_topic, :only =>[:show, :about_user]
+  before_action :set_my_topic, :only =>[:edit, :destroy, :update]
+  
+  before_action :set_user, :only =>[:center_user, :edit_about_user, :update_about_user]
+
   def index
      
     if params[:order]=="latest"
@@ -17,82 +20,65 @@ class TopicsController < ApplicationController
    
     if params[:keyword]
       @topics = Topic.where( [ "name like ?", "%#{params[:keyword]}%" ] )
-      @topics=@topics.order(sort_by).page(params[:page]).per(8)
-    elsif params[:category]    
-      name=params[:category]
-      c=Category.find_by_name("#{name}")
-      @topics=c.topics.order(sort_by).page(params[:page]).per(8)
-      
+    elsif params[:category]   
+      c = Category.find_by_name( params[:category] )
+      @topics = c.topics
     else  
       @topics = Topic.all
-      @topics=@topics.order(sort_by).page(params[:page]).per(8)
     end
+
+    @topics = @topics.order(sort_by).page(params[:page]).per(8)
   end	
   
   def show
-    t=@topic
-    t.viewer+=1
-    t.save
+    @topic.viewer+=1
+    @topic.save
+
     if params[:comment_id]
-      @comment=Comment.find(params[:comment_id])
+      @comment = @topic.comments.find(params[:comment_id])
     else
-      @comment=Comment.new
+      @comment = Comment.new
     end 
-      @comments=@topic.comments
 
-
+    @comments = @topic.comments
   end	
+
   def new
-  	 @topic=Topic.new
+  	@topic = Topic.new
   end
 
   def create
-    @topic=current_user.topics.new(topic_params)
+    @topic = current_user.topics.new(topic_params)
     
-    if @topic.save
-      redirect_to topics_path
+    if @topic.save      
       flash[:notice]="發表成功"
+      redirect_to topics_path
     else 
-      render :action => :new
-      flash[:alert]="文章主題與內容皆不可留白"
+      render :action => :new      
     end    
   end
 
   def edit
-    if @topic.user!=current_user
-      redirect_to topics_path(:page => params[:page])
-      flash[:alert]="您僅能修改自己所發布的文章"
-    end
   end	
 
   def update
-     @topic=Topic.find(params[:id])
-
-    if @topic.user!=current_user
-      redirect_to topics_path(:page => params[:page])
-      flash[:alert]="您僅能修改自己所發布的文章"
-    elsif @topic.update(topic_params)
-     flash[:notice]="修改成功"
+    if @topic.update(topic_params)
+     flash[:notice] = "修改成功"
      redirect_to topics_path(:page => params[:page])
     else 
       render :action => :edit  
-      flash[:alert]="文章主題與內容皆不可留白"
     end 
   end 	
 
   def destroy
-    if @topic.user!=current_user
-      redirect_to topics_path(:page => params[:page])
-      flash[:alert]="您僅能刪除自己所發布的文章"
-    else 
     @topic.destroy
-    flash[:alert]="刪除文章"
+
+    flash[:alert] = "刪除文章"
     redirect_to topics_path(:page => params[:page])
-    end
   end
      
   def about_user
-    @user=@topic.user
+    @user = @topic.user
   end
 
   def center_user
@@ -111,30 +97,26 @@ class TopicsController < ApplicationController
     end     
   end
 
-  def authenticate_admin
-    unless current_user.admin?
-      flash[:alert]="你沒有管理者權限"
-      redirect_to topics_path
-    end  
-  end
-
 	private
 
-	  def topic_params
-	    params.require(:topic).permit(:name,:content,:comments_count,:about,:category_ids=>[]) 
-	  end
+  def topic_params
+    params.require(:topic).permit(:name,:content,:comments_count,:about,:category_ids=>[]) 
+  end
 
-    def user_params
-      params.require(:user).permit(:about)
-    end
+  def user_params
+    params.require(:user).permit(:about)
+  end
 
-	  def set_topic
-     @topic=Topic.find(params[:id])
-     
-	  end	
+  def set_topic
+   @topic = Topic.find(params[:id])
+  end	
 
-    def set_user
-     @user=current_user  
-    end 
+  def set_my_topic
+    @topic = current_user.topics.find(params[:id])
+  end
+
+  def set_user
+   @user = current_user  
+  end 
 
  end
