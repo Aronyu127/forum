@@ -7,6 +7,21 @@
     <%= link_to t.name,topic_path(t.id) %>
   </div>
 <%end%>  
+
+<h4>已收藏文章</h4>
+<% @user.collected_topics.each do |c|%>
+<div>
+  <%= link_to c.name,topic_path(c)%>
+</div>  
+<%end%>
+
+<h4>草稿文章</h4>
+<% @user.topics.where(:status=>"draft").each do |t|%>
+<div>
+  <%= t.name%>
+  <%= link_to "編輯草稿", edit_topic_path(t),:class=>"btn btn-default"%>
+</div>
+<%end%>
 <%= form_for @user, :url => user_path(@user) do |f|%>  
 
   <div class="field">

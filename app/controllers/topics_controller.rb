@@ -24,7 +24,7 @@ class TopicsController < ApplicationController
     else  
       @topics = Topic.all
     end
-
+    @topics = @topics.where.not(:status=>"draft") 
     @topics = @topics.order(sort_by).page(params[:page]).per(8)
   end	
   
@@ -99,7 +99,7 @@ class TopicsController < ApplicationController
 	private
 
   def topic_params
-    params.require(:topic).permit(:name,:content,:comments_count,:about,:category_ids=>[]) 
+    params.require(:topic).permit(:name,:status,:content,:comments_count,:about,:category_ids=>[]) 
   end
 
 
