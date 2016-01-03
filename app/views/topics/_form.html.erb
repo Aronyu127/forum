@@ -19,6 +19,13 @@
 </div>
 
 <div class="form-group">
+	<%= f.file_field :avatar %>
+	<% if @topic.avatar.exists? %>
+	  <%= check_box_tag "_remove_image","1"%>刪除圖片
+	<%end%>
+</div>
+
+<div class="form-group">
 	<%= f.label :content,"內文"%>
 	<%= f.text_area :content,:class => "form-control"%>
 </div>

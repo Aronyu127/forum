@@ -1,9 +1,20 @@
 
 <h4>文章標題</h4>
 <h3><%= @topic.name %></h3>
+
+<span id="like-block">
+  <%= render "like"%>
+</span> 
+<p>
+ Liked by
+ <% @topic.liked_users.each do |u| %>
+   <%= link_to u.short_name, user_path(u) %>,
+ <% end %>
+</p>
+
 <p>討論者
- <% @topic.comments.each do |u|%>
-  <%= u.user.try(:short_name)%>,
+ <% @topic.comments.map{ |c| c.user }.uniq.each do |u|%>
+     <%= u.try(:short_name)%>
  <% end %>
 </p>
 
@@ -13,7 +24,11 @@
   <%= n.name%>
  <%end%>
 </h4>
-
+<div>
+  <% if @topic.avatar.exists?%>
+    <%= image_tag(@topic.avatar.url(:medium))%>
+  <%end%>
+</div>
 <h4>文章內容</h4>
 <h5><%= @topic.content%></h5>
 <h4>回覆數(<%=@topic.comments.size%>)</h4>
@@ -38,10 +53,10 @@
     </tr> 
     <tr>   
       <td>
-        <% if c.user == current_user %>
-          <%= link_to "修改",topic_path(@topic,:comment_id=>c),:class => "btn btn-default"%>
-          <%= link_to "刪除",topic_comment_path(@topic,c),:method=>:delete,:class => "btn btn-danger"%>
-        <%end%>
+         <% if c.user == current_user %>
+           <%= link_to "修改",topic_path(@topic,:comment_id=>c),:class => "btn btn-default"%>
+           <%= link_to "刪除",topic_comment_path(@topic,c),:method=>:delete,:class => "btn btn-danger"%> 
+         <%end%>
       </td>    
     </tr> 
     <tr>

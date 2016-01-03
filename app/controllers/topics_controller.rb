@@ -60,6 +60,10 @@ class TopicsController < ApplicationController
   end	
 
   def update
+
+    if params[:_remove_image]=="1"
+      @topic.avatar=nil
+    end   
     if @topic.update(topic_params)
      flash[:notice] = "修改成功"
      redirect_to topics_path(:page => params[:page])
@@ -99,7 +103,7 @@ class TopicsController < ApplicationController
 	private
 
   def topic_params
-    params.require(:topic).permit(:name,:status,:content,:comments_count,:about,:category_ids=>[]) 
+    params.require(:topic).permit(:name,:status,:content,:comments_count,:about,:avatar,:category_ids=>[]) 
   end
 
 

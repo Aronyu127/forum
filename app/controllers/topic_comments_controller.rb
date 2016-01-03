@@ -2,13 +2,16 @@ class TopicCommentsController < ApplicationController
   
   before_action :authenticate_user!, :except => [:create, :update, :destroy]  
   before_action :set_topic
+  before_action :set_comments
 
   def new
     @comment = Comment.new    
   end
 
   def create
-  	@comment = @topic.comments.new(topic_comments_params)
+    #@comment = @topic.comments.new(topic_comments_params)
+  	@comment = Comment.new(topic_comments_params)
+    @comment.topic = @topic
   	@comment.user = current_user
 
   	if @comment.save
@@ -16,7 +19,7 @@ class TopicCommentsController < ApplicationController
       flash[:notice]="回復成功"
   	  redirect_to topic_path(@topic)    
   	else 
-  	  render :new
+  	  render "topics/show"
   	end
   end	
 
@@ -31,7 +34,7 @@ class TopicCommentsController < ApplicationController
   end  
 
   def destroy
-    @comment = current_user..find(params[:id])
+    @comment = current_user.comments.find(params[:id])
     @comment.destroy
 
     flash[:alert]="刪除回覆"
@@ -49,4 +52,7 @@ class TopicCommentsController < ApplicationController
 	  params.require(:comment).permit(:content,:topic_id,:user_id) 
 	end
 
+  def set_comments
+    @comments=@topic.comments
+  end
 end

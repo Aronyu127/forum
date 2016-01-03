@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
   has_many :collectionships, :dependent=>:destroy
   has_many :collected_topics, :through=>:collectionships, :source=>:topic
 
+  has_many :likes
+  has_many :liked_topics, :through => :likes, :source => :topic
+ 
+  has_many :subscriptions
+  has_many :subscribed_topics, :through => :subscriptions, :source => :topic
+  
   def short_name
     self.email.split("@").first
   end       

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230080026) do
+ActiveRecord::Schema.define(version: 20160103082948) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -40,6 +40,26 @@ ActiveRecord::Schema.define(version: 20151230080026) do
   add_index "comments", ["topic_id"], name: "index_comments_on_topic_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "likes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "likes", ["topic_id"], name: "index_likes_on_topic_id"
+  add_index "likes", ["user_id"], name: "index_likes_on_user_id"
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "subscriptions", ["topic_id"], name: "index_subscriptions_on_topic_id"
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
+
   create_table "topic_categoryships", force: :cascade do |t|
     t.integer  "topic_id"
     t.integer  "category_id"
@@ -56,12 +76,16 @@ ActiveRecord::Schema.define(version: 20151230080026) do
     t.boolean  "is_public"
     t.string   "status"
     t.date     "date"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "user_id"
-    t.integer  "comments_count",    default: 0
+    t.integer  "comments_count",      default: 0
     t.datetime "last_comment_time"
-    t.integer  "viewer",            default: 0
+    t.integer  "viewer",              default: 0
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "topics", ["comments_count"], name: "index_topics_on_comments_count"
