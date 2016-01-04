@@ -27,10 +27,18 @@ class TopicsController < ApplicationController
     @topics = @topics.where.not(:status=>"draft") 
     @topics = @topics.order(sort_by).page(params[:page]).per(8)
   end	
+
   
   def show
-    @topic.viewer+=1
-    @topic.save
+
+    if cookies["viewr-#{@topic.id}"]
+
+    else  
+      cookies["viewr-#{@topic.id}"]="viewed"
+      @topic.viewer+=1
+      @topic.save
+
+    end
 
     if params[:comment_id]
       @comment = @topic.comments.find(params[:comment_id])

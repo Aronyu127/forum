@@ -5,11 +5,10 @@ class LikesController < ApplicationController
 
   # like
   def create
-    Like.create!( :topic => @topic, :user => current_user )
-
+     Like.create!( :topic => @topic, :user => current_user )
     # respond_to do |format|
     #   format.html{ redirect_to :back}
-    #   format.js
+    #   format.js # create.js.erb
     # end  
   end
 
@@ -17,7 +16,7 @@ class LikesController < ApplicationController
   def destroy
     like = current_user.likes.find( params[:id] )
     like.destroy
-    
+
     # respond_to do |format|
     #   format.html{ redirect_to :back}
     #   format.js

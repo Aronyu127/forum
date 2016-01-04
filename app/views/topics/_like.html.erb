@@ -1,6 +1,14 @@
+<span>
 <% like = @topic.find_my_like(current_user) %>
   <% if like %>
     <%= link_to "Unlike", topic_like_path(@topic, like), :method => :delete, :remote=>true, :class => "btn btn-danger" %>
   <% else %>
     <%= link_to "Like", topic_likes_path(@topic), :method => :post, :remote=>true, :class => "btn btn-default" %>
 <% end %>
+</span>
+<p>
+<%= @topic.likes.size%> Liked by
+   <% @topic.liked_users.each do |u| %>
+     <%= link_to u.short_name, user_path(u) %>,
+   <% end %>
+</p>
