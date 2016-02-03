@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 
   end
 
+  resources :websites
+
   get "/about" => "topics#about"
   root "topics#index"
   # The priority is based upon order of creation: first created -> highest priority.

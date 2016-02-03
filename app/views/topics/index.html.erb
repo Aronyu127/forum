@@ -72,6 +72,7 @@
 
   <%= link_to "發新文章", new_topic_path, :class =>"btn btn-primary"%>
   <%= link_to "關於本站", about_path, :class =>"btn btn-default"%>
+  <%= link_to "轉址功能", websites_path, :class =>"btn btn-default"%>
 
   <% if current_user && current_user.admin?%>
     <%= link_to "管理者模式", admin_topics_path, :class =>"btn btn-danger"%>

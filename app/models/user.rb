@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
  
   has_many :subscriptions
   has_many :subscribed_topics, :through => :subscriptions, :source => :topic
+
+  has_many :websites
   
   def short_name
     self.email.split("@").first

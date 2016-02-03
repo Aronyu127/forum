@@ -1,0 +1,24 @@
+<h1>輸入網址：</h1>
+
+<%= form_for @website, :url=> websites_path do |f|%>
+  <%= f.label :name,"請貼入轉換網址"%>
+  <%= f.url_field :original_url,:class => "form-control" %>	
+  <%= f.submit "送出", :class => "btn btn-primary"%>
+<%end%>  
+
+<table class="table">
+	<tr>
+		<td>舊網址</td>
+		<td>新網址</td>
+	</tr>
+	<% @websites.each do |w|%>
+		<tr>
+			<td><%= w.original_url%></td>
+			<td>
+			  <% linkname = websites_url(:url=>"#{w.url}")%>
+			  <%= link_to "#{linkname}",websites_url(:url=>"#{w.url}")%>
+			</td>
+		</tr>
+	<%end%>
+
+</table>
